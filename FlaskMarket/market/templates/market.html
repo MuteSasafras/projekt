@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block title %}
+Giełda - Oferty
+{% endblock %}
+{% block content %}
+<style>
+   .btn-custom {
+   padding: 8px 15px;
+   font-size: 16px;
+   border-radius: 40px;
+   transition: background-color 0.3s, color 0.3s;
+   }
+   .btn-custom-info {
+   border: 1px solid #9ca2a8;
+   background-color: transparent;
+   color: #9ca2a8;
+   }
+   .btn-custom-info:hover, .btn-custom-info:focus {
+   border: 1px solid #17a2b8;
+   background-color: #17a2b8;
+   color: white;
+   }
+   .table {
+   background-color: #1c2834;
+   border-collapse: collapse;
+   }
+   .table th, .table td {
+   padding: 12px;
+   color: white;
+   overflow: hidden;
+   text-overflow: ellipsis; 
+   white-space: nowrap;
+   }
+   .table th {
+   background-color: #263340;
+   }
+   .table-hover tbody tr:hover {
+   background-color: #2e4053;
+   }
+   .table td:nth-child(2), .table td:nth-child(3) {
+   width: 20%;                 /* Ensuring specific columns have fixed width */
+   }
+</style>
+</html>
+<div class="container-fluid" style="margin-top:20px;">
+   <div class="row">
+      <!-- Left Column for Market Table -->
+      <div class="col-lg-8">
+         <h2>Dostępne oferty na giełdzie</h2>
+         <p>Wybierz interesujące ciebie oferty</p>
+         <table class="table table-hover table-dark">
+            <thead>
+               <tr>
+                  <th scope="col">Nazwa</th>
+                  <th scope="col">Zmiana</th>
+                  <th scope="col">Cena</th>
+                  <th scope="col">Opcje</th>
+                  <th scope="col">Identyfikator</th>
+               </tr>
+            </thead>
+            <tbody>
+               {% for item in items %}
+               {% include 'includes/items_modals.html' %}
+               <tr>
+                  <td>{{ item.name }}</td>
+                  <td id="change-{{ item.id }}">
+                     {% if item.change_percent > 0 %}
+                     🟩 {{ item.change_percent | abs | round(2) }}%
+                     {% elif item.change_percent < 0 %}
+                     🟥 -{{ item.change_percent | abs | round(2) }}%
+                     {% else %}
+                     ▶ 0%
+                     {% endif %}
+                  </td>
+                  <td id="price-{{ item.id }}">{{ item.price }} PLN</td>
+                  <td>
+                     <button class="btn btn-custom btn-custom-info" data-toggle="modal" data-target="#Modal-MoreInfo-{{ item.id }}">więcej informacji</button>
+                     <button class="btn btn-custom btn-custom-info" data-toggle="modal" data-target="#Modal-PurchaseConfirm-{{ item.id }}">Kup</button>
+                  </td>
+                  <td>{{ item.barcode }}</td>
+               </tr>
+               {% endfor %}
+            </tbody>
+         </table>
+      </div>
+      <div class="col-lg-4">
+         <h2>Posiadane podmioty</h2>
+         <p>Naciśnij dany przedmiot by go odsprzedać na giełdzie</p>
+         <table class="table table-hover table-dark">
+             <thead>
+                 <tr>
+                     <th scope="col">Nazwa</th>
+                     <th scope="col">Ilość</th>
+                     <th scope="col">Sprzedaż</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 {% for owned_item in owned_items %}
+                 <tr>
+                     <td>{{ owned_item.name }}</td>
+                     <td>{{ owned_item.quantity }}</td>
+                     <td>
+                        <button class="btn btn-custom btn-custom-info" data-toggle="modal" data-target="#Modal-SellingConfirm-{{ owned_item.id }}">Sprzedaj</button>
+                     </td>
+                 </tr>
+                 {% endfor %}
+             </tbody>
+         </table>
+     </div>
+     
+   </div>
+   {#
+   <div class="row">
+      {% for owned_item in owned_items %}
+      {% include 'includes/owned_items_modals.html' %}            
+      <div class="col-md-6">
+         <div style="margin-bottom: 5px" class="card text-center bg-dark">
+         </div>
+      </div>
+      {% endfor %}     
+   </div>
+   #}
+</div>
+</div>
+{% endblock %}

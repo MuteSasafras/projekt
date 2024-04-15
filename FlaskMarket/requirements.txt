@@ -1,0 +1,5 @@
+pip install flask_bcrypt
+pip install bcrypt
+pip install APScheduler
+pip install flask_apscheduler
+pip install flask-migrate

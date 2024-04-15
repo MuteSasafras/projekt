@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}
+    Welcome to Jim Shaped Coding Market
+{% endblock %}
+{% block content %}
+<div class="container-fluid h-50">
+    <div class="row justify-content-center align-items-center h-100">
+        <!-- Image on the left -->
+        <div class="col-md-4 text-center">
+            <img src="{{ url_for('static', filename='Logo.webp') }}" alt="Logo" class="img-fluid">
+        </div>
+        <!-- Text on the right -->
+        <div class="col-md-4 text-center">
+            <h1 class="display-4 font-weight-normal">FLASK GIEŁDA</h1>
+            <p class="lead font-weight-normal">Zacznij handlować już teraz</p>
+            <a class="btn btn-primary" href="{{ url_for('market_page') }}">Rozpocznij</a>
+        </div>
+    </div>
+</div>
+<div class="black-section h-50">
+    <br>
+    <div class="text-center">
+        Projekt szkolny/portfolio Tomasz Mycek
+    </div>
+</div>
+{% endblock %}
